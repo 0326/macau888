@@ -46,7 +46,7 @@ const HistoryPage = () => {
         <div className='pingma'>平码</div>
         <div className='tema'>特码</div>
         <div className='tema-danshuang'>单双</div>
-        <div className='kaijiang-riqi'>开奖日期</div>
+        {/* <div className='kaijiang-riqi'>开奖日期</div> */}
       </div>
       <div className='history-content'>
         {cutList.map((item) => <LotteryItem key={item.expect} item={item} />)}
