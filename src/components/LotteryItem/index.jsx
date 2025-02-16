@@ -9,7 +9,7 @@ const LotteryItem = ({ item }) => {
         </div>
         <div className='codes flex-row'>
             {item.codes.map((num, index) => (
-                <div className={`code-num-box`}>
+                <div className={`code-num-box`} key={num+index}>
                     <div className={`code-num ${item.waves[index]}`}>{num}</div>
                     <div className="code-zodiac">{item.zodiacs[index]}</div>
                 </div>

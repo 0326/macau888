@@ -1,3 +1,4 @@
+import { d2020, d2021, d2022, d2023, d2024 } from "./data"
 const getLotteryByYear = async function (year) {
     var url = `https://history.macaumarksix.com/history/macaujc2/y/${year}`
     const res = await fetch(url)
@@ -11,6 +12,24 @@ const getLotteryByYear = async function (year) {
     }))
 }
 
+/**
+ * 获取历史所有中奖记录，
+ * @returns 
+ */
+const getAllHistoryData = async () => {
+    const data = await getLotteryByYear(2025)
+    const res = []
+    for(let i = 0; i < data.length; i++) {
+        if (data[i].expect === d2024[0].expect) {
+            break;
+        }
+        res.push(data[i]);
+    }
+    res.push(...d2024, ...d2023, ...d2022, ...d2021, ...d2020)
+    return res
+}
+
 export {
-    getLotteryByYear
+    getLotteryByYear,
+    getAllHistoryData
 }
