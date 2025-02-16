@@ -11,7 +11,7 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path='/macau888' element={<div>首页666</div>} />
+      <Route path='/' element={<HistoryPage />} />
       <Route path='*' element={<HistoryPage/>} />
     </Routes>
   );
