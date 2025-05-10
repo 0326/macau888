@@ -1,4 +1,4 @@
-import { d2020, d2021, d2022, d2023, d2024 } from "./data"
+import { d2020, d2021, d2022, d2023, d2024, d2025 } from "./data"
 const getLotteryByYear = async function (year) {
     var url = `https://history.macaumarksix.com/history/macaujc2/y/${year}`
     const res = await fetch(url)
@@ -10,6 +10,10 @@ const getLotteryByYear = async function (year) {
         waves: item.wave.split(','),
         zodiacs: item.zodiac.split(','),
     }))
+}
+
+export const getAllDataSync = () => {
+    return [...d2025,...d2024, ...d2023, ...d2022, ...d2021, ...d2020]
 }
 
 /**

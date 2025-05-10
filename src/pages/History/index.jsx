@@ -40,6 +40,9 @@ const HistoryPage = () => {
         <div>
           {utils.totalTips(cutList).split('\n').map(s => <p>{s}</p>)}
         </div>
+        <div>
+          {utils.temasx(cutList).split('\n').map(s => <p>{s}</p>)}
+        </div>
       </div>
       <div className='history-header flex-row'>
         <div className='qishu'>期数</div>
