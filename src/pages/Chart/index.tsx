@@ -3,15 +3,19 @@ import { Tabs, Slider, Select, Flex, Typography } from 'antd';
 import type { TabsProps } from 'antd';
 import ReactECharts from 'echarts-for-react'; 
 import { d20212024 } from './origindata'
-import { getBarOptions, getPieOptions } from './options';
+import { getBarOptions, getBar2Options, getPieOptions } from './options';
 import { getLotteryByYear } from '../../services/macau';
-import { calcN5, N1, N2, N3, N4, N5 } from './newrule';
+import { calcN5, N1, N2, N3, N4, N5, calcS3, S3, S2, S1 } from './newrule';
 
 const expectOptions = [
     { value: 5, label: '近5期' },
+    { value: 20, label: '近20期' },
+    { value: 30, label: '近30期' },
     { value: 50, label: '近50期' },
     { value: 100, label: '近100期' },
     { value: 200, label: '近200期' },
+    { value: 300, label: '近300期' },
+    { value: 400, label: '近400期' },
     { value: 500, label: '近500期' },
     { value: 1000, label: '近1000期' },
     { value: 0, label: '所有期数' },
@@ -105,7 +109,7 @@ const items: TabsProps['items'] = [
       children: (
         <div>
             
-            <Flex justify='center'>
+            {/* <Flex justify='center'>
                 <div style={{ textAlign: 'center'}}>
                     重新定义五个数字N1-N5，分别对应1-49个数字，分析N1-N5的出现规律。
                     <div>const N5 = <b>{N5.join(',')}</b>  const N4 = {N4.join(',')}</div>
@@ -116,8 +120,43 @@ const items: TabsProps['items'] = [
                     </Typography.Title>
                 </div>
             </Flex>
-            <ReactECharts option={getBarOptions(rdata, 'ntm')} />
+            <ReactECharts option={getBarOptions(rdata, 'ntm')} /> */}
+
+            <Flex justify='center'>
+                <div style={{ textAlign: 'center'}}>
+                    重新定义3个数字S1-S3，分别对应1-49个数字，分析S1-S3的出现规律。
+                    <div>S3: {S3.join(',')}</div>
+                    <div>S2: {S2.join(',')}</div>
+                    <div>S1: {S1.join(',')}</div>
+                    <Flex justify='center' gap={10} style={{ textAlign: 'left'}}>
+                        <div>{calcS3(rdata, 3).map(n => <div>{n}</div>)}</div>
+                        <div>{calcS3(rdata, 2).map(n => <div>{n}</div>)}</div>
+                        <div>{calcS3(rdata, 1).map(n => <div>{n}</div>)}</div>
+                    </Flex>
+                    <Typography.Title style={{ margin: 0, lineHeight: '32px' }} level={5}>
+                        {expText}特码出现次数(次数/S号码)
+                    </Typography.Title>
+                </div>
+            </Flex>
+            <ReactECharts option={getBarOptions(rdata, 'stm')} />
+
             
+
+            <Flex justify='center'>
+                <Typography.Title style={{ margin: 0, lineHeight: '32px' }} level={5}>
+                {expText}特码出现概率对比(概率/S号码)
+                </Typography.Title>
+            </Flex>
+            <ReactECharts option={getBar2Options(rdata, 'stg')} />
+
+
+            <Flex justify='center'>
+                <Typography.Title style={{ margin: 0, lineHeight: '32px' }} level={5}>
+                {expText}特码出现概率对比(概率/S号码)
+                </Typography.Title>
+            </Flex>
+            <ReactECharts option={getBarOptions(rdata, 'sall')} />
+
             <Flex justify='center'>
                 <Typography.Title style={{ margin: 0, lineHeight: '32px' }} level={5}>
                 {expText}中奖特码(N号码/期数)
@@ -137,11 +176,12 @@ const items: TabsProps['items'] = [
             defaultValue={0}
             min={0}
             max={data?.length}
-            step={1}
+            step={5}
             tooltip={{
                 formatter: (value) => `${data?.[value]?.expect}期`,
             }}
-            onChangeComplete={handleSliderChange}
+            // onChangeComplete={handleSliderChange}
+            onChange={handleSliderChange}
             style={{ width: 400 }}
         />
        <Typography.Title style={{ margin: 0, lineHeight: '32px' }} level={5}>请选择统计范围：</Typography.Title>

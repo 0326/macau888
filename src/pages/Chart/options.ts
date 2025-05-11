@@ -1,5 +1,5 @@
 import { redNums, greenNums, blueNums } from './origindata'
-import { N1, N2, N3, N4, N5 } from './newrule'
+import { N1, N2, N3, N4, N5, S1, S2, S3 } from './newrule'
 
 interface LotteryItem {
     expect: string;
@@ -18,6 +18,17 @@ function getBoColorByValue(value: number) {
         return 'blue';
       }
       return 'black';
+}
+
+function getSnumberColor(value: number) {
+    if (S3.includes(value)) {
+        return '#000';
+      } else if (S2.includes(value)) {
+        return '#888';
+      } else if (S1.includes(value)) {
+        return '#eee';
+      }
+      return '#eee';
 }
 
 // 获取特码出现频次数据
@@ -85,8 +96,40 @@ function getNData(rdata: LotteryItem[]) {
     return data;
 }
 
+function getSData(rdata: LotteryItem[]) {
+    const data =  rdata.map(item => {
+        const code = Number(item.codes[6]);
+        let num = '';
+        if (S3.includes(code)) {
+            num = '3';
+        } else if (S2.includes(code)) {
+            num = '2';
+        } else if (S1.includes(code)) {
+            num = '1';
+        }
+        return { ...item, num }
+    })
+
+    return data;
+}
+
 function getNtmData(data: LotteryItem[]) {
     const result = new Array(5).fill(0);
+    data.map(item => {
+        const code = Number(item.num);
+        result[code - 1]++;
+    })
+    return result.map((item, index) => {
+        return {
+            expect: index + 1,
+            num: item,
+        }
+    }).sort((a, b) => b.num - a.num);
+}
+
+
+function getStmData(data: LotteryItem[]) {
+    const result = new Array(3).fill(0);
     data.map(item => {
         const code = Number(item.num);
         result[code - 1]++;
@@ -113,6 +156,8 @@ export const getBarOptions = (rdata: LotteryItem[], action?: string, prevData?: 
         data = getNData(rdata);
     } else if (action === 'ntm') {
         data = getNtmData(getNData(rdata));
+    } else if (action === 'stm') {
+        data = getStmData(getSData(rdata));
     }
     console.log('nowData, prevData', data, pdata)
     const series = [
@@ -126,6 +171,9 @@ export const getBarOptions = (rdata: LotteryItem[], action?: string, prevData?: 
         },
         itemStyle: prevData ? {} : {
             color: (params) => {
+                if (action === 'sall') {
+                    return getSnumberColor(params.value);
+                }
                 if (action === 'tm') {
                     return getBoColorByValue(Number(params.name));
                 }
@@ -248,4 +296,57 @@ export const getPieOptions = (rdata: LotteryItem[], action?: string) => {
           }
         ]
       }
+}
+
+export function getBar2Options(data: LotteryItem[], action?: string) {
+    const sMap = {};
+    data?.map(item => {
+        const code = Number(item.codes[6]);
+        let num = '';
+        if (S3.includes(code)) {
+            sMap['S3'] === undefined ? (sMap['S3'] = 1) : sMap['S3']++;
+        } else if (S2.includes(code)) {
+            sMap['S2'] === undefined? (sMap['S2'] = 1) : sMap['S2']++;
+        } else if (S1.includes(code)) {
+            sMap['S1'] === undefined? (sMap['S1'] = 1) : sMap['S1']++;
+        }
+    })
+    console.log('sMap', sMap, data.length)
+    const sdata = [sMap['S3']/data.length, sMap['S2']/data.length, sMap['S1']/data.length]
+    const option = {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
+        },
+        legend: {},
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        yAxis: {
+          type: 'value',
+          boundaryGap: [0, 0.01]
+        },
+        xAxis: {
+          type: 'category',
+          data: ['S3', 'S2', 'S1']
+        },
+        series: [
+          {
+            name: '当前概率',
+            type: 'bar',
+            data: sdata,
+          },
+          {
+            name: '历史平均概率',
+            type: 'bar',
+            data: [0.39367, 0.30267, 0.28418]
+          }
+        ]
+      };
+      return option;
 }
