@@ -22,7 +22,7 @@ const HistoryPage = () => {
     setCutLen(l);
   };
 
-  const cutList = cutLen > 0 ? list?.slice(0, cutLen) : list;
+  const cutList = cutLen > 0 ? list?.slice(0, cutLen + 10) : list;
   const len = cutList?.length;
   const calcList = calc(cutList);
 
@@ -35,7 +35,7 @@ const HistoryPage = () => {
       zsyCount++;
       countMap[fsyCount] = (countMap[fsyCount] || 0) + 1;
       fsyCount = 0;
-    } else {
+    } else if (item.sy < 0) {
       fsyCount--;
       countMap[zsyCount] = (countMap[zsyCount] || 0) + 1;
       zsyCount = 0;
@@ -59,8 +59,9 @@ const HistoryPage = () => {
         </div>
         <div>
           <b>购买策略:</b>
-          <br /> 1. 如果前3期都出单或者双，本期也买一样的，否则大小单双跟上一期反着买。
-          <br /> 2. 如果前3期都没中，直接下注，否则将第1步的单双结果取反再下注。
+          <br /> 1. 上期出哭数就买哭数，上期出笑数就买笑数。
+          <br /> 2. 如果连续三期都没中，则跟上一期买相反数。
+          <br /> 3. 每注基本金25，上一期不中下期需要加倍投注，直到中奖后恢复基本金投注。
         </div>
         <div>
           <b>
@@ -88,6 +89,7 @@ const HistoryPage = () => {
         {/* <div className="tema-danshuang">大小</div> */}
         {/* <div className="tema-danshuang">合单双</div> */}
         <div className="tema-danshuang">哭笑数</div>
+        <div className="tema-danshuang">押注</div>
         {/* <div className="tema-danshuang">合大小</div> */}
         <div className="tema-shouyi">推测结果</div>
         <div className="tema-shouyi">累计收益</div>
@@ -107,7 +109,7 @@ const HistoryPage = () => {
             zslzs: yuce(calcList[0], calcList[1], calcList[2]),
           }}
         />
-        {calcList.map((item) => (
+        {calcList.slice(0, calcList.length - 10).map((item) => (
           <LotteryItem key={item.expect} item={item} />
         ))}
       </div>

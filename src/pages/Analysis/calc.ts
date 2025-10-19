@@ -5,7 +5,7 @@ const sum = (codes: string[]) => {
 export const baseMoney = 25;
 export const winRate = 0.84; // 46倍率, 扣除本金25，净赚21，21/25=0.84
 // 哭笑算法
-export const yuce = (last1, last2, last3) => {
+export const yuce = (last1, last2, last3, last4, last5) => {
   let currentDs = last1?.rdm;
   // let currentDs =
   //   last1?.rdm === last2?.rdm && last1?.rdm === last3?.rdm ? last1?.rdm : last1?.rdm === "笑数" ? "哭数" : "笑数";
@@ -80,7 +80,7 @@ export function calc(list?: any[]) {
   for (let i = result.length - 1; i >= 0; i--) {
     result[i].sy = 0;
     result[i].ljsy = 0;
-    if (i >= result.length - 3) {
+    if (i >= result.length - 10) {
       continue;
     }
     const last1 = result[i + 1];
@@ -89,35 +89,48 @@ export function calc(list?: any[]) {
     const last4 = result[i + 4];
     const last5 = result[i + 5];
     const last6 = result[i + 6];
+    const last7 = result[i + 7];
+    const last8 = result[i + 8];
+    const last9 = result[i + 9];
+    const last10 = result[i + 10];
 
     // const preSy = last1.sy + last2.sy;
     let beilv = 1;
-    if (last1.sy < 0 && last2.sy < 0 && last3.sy < 0) {
-      beilv = 5;
+    if (last1.sy < 0) {
+      beilv = 2;
+      if (last2.sy < 0) {
+        beilv = 4;
+        if (last3.sy < 0) {
+          beilv = 8;
+          if (last4.sy < 0) {
+            beilv = 16;
+            if (last5.sy < 0) {
+              beilv = 32;
+              if (last6.sy < 0) {
+                beilv = 64;
+                if (last7.sy < 0) {
+                  beilv = 128;
+                  if (last8.sy < 0) {
+                    beilv = 256;
+                    if (last9.sy < 0) {
+                      beilv = 512;
+                      if (last10.sy < 0) {
+                        beilv = 1024;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
-    // if (last1.sy < 0) {
-    //   beilv = 2;
-    //   if (last2.sy < 0) {
-    //     beilv = 3;
-    //     if (last3.sy < 0) {
-    //       beilv = 4;
-    //       if (last4.sy < 0) {
-    //         beilv = 5;
-    //         if (last5.sy < 0) {
-    //           beilv = 6;
-    //           if (last6.sy < 0) {
-    //             beilv = 7;
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-    let currentDs = yuce(last1, last2, last3);
+    let currentDs = yuce(last1, last2, last3, last4, last5);
 
     // result[i].sy += currentDs === result[i].hds ? baseMoney * winRate * beilv : -baseMoney * beilv;
     result[i].sy += currentDs === result[i].rdm ? baseMoney * winRate * beilv : -baseMoney * beilv;
-
+    result[i].yazhu = baseMoney * beilv; // 本次押注
     // 累计收益
     total += result[i].sy;
     result[i].ljsy = total;
@@ -127,7 +140,9 @@ export function calc(list?: any[]) {
   for (let i = result.length - 1; i >= 0; i--) {
     result[i].zslzs = 0;
     result[i].fslzs = 0;
-    if (i >= result.length - 1) {
+    if (i >= result.length - 10) {
+      result[i].sy = 0;
+      result[i].zslzs = "-";
       continue;
     }
     if (result[i].sy > 0) {

@@ -24,6 +24,7 @@ const LotteryItem = ({ item }) => {
       <div className="te-danshuang">{item.ds}</div>
       {/* <div className="te-danshuang">{item.dx}</div> */}
       <div className="te-danshuang">{item.rdm}</div>
+      <div className="te-danshuang">{item.yazhu}</div>
       {/* <div className="te-danshuang">{item.hdx}</div> */}
       {/* <div className="te-danshuang">{item.sy}</div> */}
       <div className="te-danshuang" style={{ color: item.zslzs > 0 ? "red" : "green" }}>
