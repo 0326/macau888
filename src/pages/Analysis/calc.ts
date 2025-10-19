@@ -5,7 +5,7 @@ const sum = (codes: string[]) => {
 export const baseMoney = 25;
 export const winRate = 0.84; // 46倍率, 扣除本金25，净赚21，21/25=0.84
 // 哭笑算法
-export const yuce = (last1, last2, last3, last4, last5) => {
+export const yuce = (last1, last2, last3) => {
   let currentDs = last1?.rdm;
   // let currentDs =
   //   last1?.rdm === last2?.rdm && last1?.rdm === last3?.rdm ? last1?.rdm : last1?.rdm === "笑数" ? "哭数" : "笑数";

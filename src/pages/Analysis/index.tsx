@@ -83,7 +83,7 @@ const HistoryPage = () => {
       </div>
       <div className="history-header flex-row">
         <div className="qishu">期数</div>
-        <div className="pingma">平码</div>
+        {/* <div className="pingma">平码</div> */}
         <div className="tema">特码</div>
         <div className="tema-danshuang">单双</div>
         {/* <div className="tema-danshuang">大小</div> */}
@@ -104,7 +104,7 @@ const HistoryPage = () => {
             waves: ["-", "-", "-", "-", "-", "-", "-"],
             zodiacs: ["-", "-", "-", "-", "-", "-", "-"],
             ds: "-",
-            hds: yuce(calcList[0], calcList[1], calcList[2]),
+            rdm: yuce(calcList[0], calcList[1], calcList[2]),
             sy: "-",
             zslzs: yuce(calcList[0], calcList[1], calcList[2]),
           }}
