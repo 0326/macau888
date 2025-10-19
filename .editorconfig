@@ -1,0 +1,69 @@
+# EditorConfig for the repository
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+indent_size = 2
+tab_width = 2
+trim_trailing_whitespace = true
+insert_final_newline = true
+max_line_length = 120
+
+# Common text files where trailing whitespace is meaningful
+[*.md]
+trim_trailing_whitespace = false
+max_line_length = off
+
+[*.txt]
+trim_trailing_whitespace = false
+max_line_length = off
+
+# JSON, YAML, manifest
+[*.json]
+indent_size = 2
+
+[*.yml]
+indent_size = 2
+trim_trailing_whitespace = false
+
+[*.yaml]
+indent_size = 2
+trim_trailing_whitespace = false
+
+# Scripts and web
+[*.{js,jsx,ts,tsx,vue,html,xml,css,scss,sass,less,svg}]
+indent_size = 2
+
+# Python uses 4 spaces
+[*.py]
+indent_size = 4
+
+# Go uses tabs
+[*.go]
+indent_style = tab
+tab_width = 4
+
+# Makefiles and Dockerfiles require tabs
+[Makefile]
+indent_style = tab
+trim_trailing_whitespace = false
+
+[*.mk]
+indent_style = tab
+trim_trailing_whitespace = false
+
+[Dockerfile]
+indent_style = tab
+trim_trailing_whitespace = false
+
+# C / C++ / Java / C# use 4 spaces
+[*.{c,cpp,h,hpp,java,cs}]
+indent_size = 4
+
+# Binary files — do not modify whitespace/newline settings
+[*.{png,jpg,jpeg,gif,ico,zip,jar,exe,pdf}]
+trim_trailing_whitespace = false
+insert_final_newline = false
+max_line_length = off

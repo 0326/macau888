@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import HistoryPage from "./pages/History";
+import AnalysisPage from "./pages/Analysis";
 import HomePage from "./pages/Home";
 import ChartPage from "./pages/Chart";
 import "./App.less";
@@ -17,6 +18,8 @@ const App = () => {
         return <ChartPage />;
       case "#history":
         return <HistoryPage />;
+      case "#analysis":
+        return <AnalysisPage />;
       default:
         return <HomePage />;
     }

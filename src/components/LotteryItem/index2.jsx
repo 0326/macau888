@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./index.less";
-
+// 表格模式
 const sum = (codes) => {
   const r = codes.map(Number).reduce((a, b) => a + b, 0);
   return r;
@@ -21,14 +21,15 @@ const LotteryItem = ({ item }) => {
           </div>
         ))}
       </div>
-      <div className="te-danshuang">{item.codes[6] % 2 > 0 ? "单" : "双"}</div>
-      <div className="te-danshuang">{item.codes[6] > 24 > 0 ? "大" : "小"}</div>
-      <div className="te-danshuang">
-        {sum(item.codes) % 2 > 0 ? "合单" : "合双"}
+      <div className="te-danshuang">{item.ds}</div>
+      {/* <div className="te-danshuang">{item.dx}</div> */}
+      <div className="te-danshuang">{item.hds}</div>
+      {/* <div className="te-danshuang">{item.hdx}</div> */}
+      {/* <div className="te-danshuang">{item.sy}</div> */}
+      <div className="te-danshuang" style={{ color: item.zslzs > 0 ? "red" : "green" }}>
+        {typeof item.zslzs === "string" ? item.zslzs : item.zslzs > 0 ? "对" : "错"}
       </div>
-      <div className="te-danshuang">
-        {sum(item.codes) / 7 > 24 ? "合大" : "合小"}
-      </div>
+      <div className="te-danshuang">{item.ljsy}</div>
       {/* <div className='kaijiang-date'>
             {item.openTime}
         </div> */}
