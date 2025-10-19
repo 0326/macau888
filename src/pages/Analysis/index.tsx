@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import LotteryItem from "../../components/LotteryItem/index2";
 import { getAllHistoryData } from "../../services/macau";
-import { baseMoney, calc, yuce, winRate } from "./calc";
+import { baseMoney, calc, yuce, winRate, xiaoNum, kuNum } from "./calc";
 
 import "./index.less";
 
@@ -54,6 +54,10 @@ const HistoryPage = () => {
           ))}
         </div>
         <div>
+          笑数：{xiaoNum.join(", ")}；<br />
+          哭数：{kuNum.join(", ")}
+        </div>
+        <div>
           <b>购买策略:</b>
           <br /> 1. 如果前3期都出单或者双，本期也买一样的，否则大小单双跟上一期反着买。
           <br /> 2. 如果前3期都没中，直接下注，否则将第1步的单双结果取反再下注。
@@ -65,7 +69,7 @@ const HistoryPage = () => {
           <br /> 1. 按46倍率计算，每注基础本金{baseMoney}, 中了+{baseMoney * winRate}，亏了-{baseMoney}，累计{len}
           期收益：
           {calcList[0]?.ljsy || 0} 元
-          <br /> 2. 连续中间次数统计：
+          <br /> 2. 连续中奖次数统计：
           {Object.keys(countMap)
             .sort((a, b) => b - a)
             .filter((key) => key != 0)
@@ -82,7 +86,8 @@ const HistoryPage = () => {
         <div className="tema">特码</div>
         <div className="tema-danshuang">单双</div>
         {/* <div className="tema-danshuang">大小</div> */}
-        <div className="tema-danshuang">合单双</div>
+        {/* <div className="tema-danshuang">合单双</div> */}
+        <div className="tema-danshuang">哭笑数</div>
         {/* <div className="tema-danshuang">合大小</div> */}
         <div className="tema-shouyi">推测结果</div>
         <div className="tema-shouyi">累计收益</div>
@@ -91,7 +96,7 @@ const HistoryPage = () => {
         <LotteryItem
           key="today"
           item={{
-            expect: "今日预测",
+            expect: "下期预测",
             num: "-",
             codes: ["-", "-", "-", "-", "-", "-", "-"],
             waves: ["-", "-", "-", "-", "-", "-", "-"],
